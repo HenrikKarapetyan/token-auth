@@ -7,11 +7,13 @@
 
 namespace HashAuth;
 
+use HashAuth\Interfaces\TokenBuilderInterface;
+
 /**
  * Class TokenBuilder
  * @package HashAuth
  */
-class TokenBuilder
+class TokenBuilder implements TokenBuilderInterface
 {
     /**
      * @var KeyStorage

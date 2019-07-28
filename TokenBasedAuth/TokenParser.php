@@ -15,12 +15,13 @@ use Exception;
 use HashAuth\Exceptions\ClaimNotExists;
 use HashAuth\Exceptions\HashAuthException;
 use HashAuth\Exceptions\InvalidTokenDataException;
+use HashAuth\Interfaces\TokenParserInterface;
 
 /**
  * Class TokenParser
  * @package HashAuth
  */
-class TokenParser extends AbstractToken
+class TokenParser extends AbstractToken implements TokenParserInterface
 {
     /**
      * @var string

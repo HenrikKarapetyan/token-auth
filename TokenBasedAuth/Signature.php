@@ -8,11 +8,13 @@
 
 namespace HashAuth;
 
+use HashAuth\Interfaces\HashGeneratorInterface;
+
 /**
  * Class Signature
  * @package HashAuth
  */
-class Signature
+class Signature implements HashGeneratorInterface
 {
     /**
      * @var string string

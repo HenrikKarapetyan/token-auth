@@ -45,11 +45,15 @@ class TokenManager
     /**
      * @param $data
      * @param array $claims
+     * @return string
      */
     public function makeToken($data, $claims = [])
     {
         $claims = array_merge($this->claims, $claims);
-        (new TokenBuilder($this->keyStorage))->buildToken($data, $claims);
+
+        $tokenBuilder = new TokenBuilder($this->keyStorage);
+        $token = $tokenBuilder->buildToken($data, $claims);
+        return $token;
     }
 
     /**

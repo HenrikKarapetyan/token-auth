@@ -8,11 +8,13 @@
 
 namespace HashAuth;
 
+use HashAuth\Interfaces\HashGeneratorInterface;
+
 /**
  * Class Token
  * @package HashAuth
  */
-class Token extends AbstractToken
+class Token extends AbstractToken implements HashGeneratorInterface
 {
 
     private $keyStorage;
@@ -42,7 +44,7 @@ class Token extends AbstractToken
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getGeneratedToken()
     {
