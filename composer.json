@@ -1,0 +1,20 @@
+{
+  "name": "Henrik/HashAuth",
+  "type": "library",
+  "description": "this  package created for token based authorization",
+  "authors": [
+    {
+      "name": "Henrik Karapetyan",
+      "email": "henrikkarapetyan@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1.3",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "HashAuth\\": "./token-based-auth"
+    }
+  }
+}
