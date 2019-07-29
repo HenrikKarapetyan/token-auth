@@ -33,7 +33,7 @@ class TokenManager
     public function __construct($token_private_key, $token_private_iv, $signature_private_key)
     {
         $this->keyStorage = new KeyStorage();
-        $this->keyStorage->setTokenPrivateIv($token_private_key);
+        $this->keyStorage->setTokenPrivateKey($token_private_key);
         $this->keyStorage->setSignaturePrivateKey($signature_private_key);
         $this->keyStorage->setTokenPrivateIv($token_private_iv);
         $this->claims = [
