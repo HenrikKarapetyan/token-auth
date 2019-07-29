@@ -14,7 +14,7 @@
   },
   "autoload": {
     "psr-4": {
-      "HashAuth\\": "./token-based-auth"
+      "HashAuth\\": "./hash-auth"
     }
   }
 }
