@@ -4,7 +4,13 @@
 namespace HashAuth\Exceptions;
 
 
-class HashAuthException extends \Exception
+use Exception;
+
+/**
+ * Class HashAuthException
+ * @package HashAuth\Exceptions
+ */
+class HashAuthException extends Exception
 {
 
 }

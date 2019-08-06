@@ -12,9 +12,10 @@ namespace HashAuth;
  */
 
 use Exception;
-use HashAuth\Exceptions\ClaimNotExists;
+use HashAuth\Exceptions\ClaimNotExistsException;
 use HashAuth\Exceptions\HashAuthException;
 use HashAuth\Exceptions\InvalidTokenDataException;
+use HashAuth\Interfaces\ClaimInterface;
 use HashAuth\Interfaces\TokenParserInterface;
 
 /**
@@ -41,7 +42,7 @@ class TokenParser extends AbstractToken implements TokenParserInterface
     /**
      * @param $token
      * @return string
-     * @throws ClaimNotExists
+     * @throws ClaimNotExistsException
      * @throws Exception
      */
     public function parse($token)
@@ -83,7 +84,7 @@ class TokenParser extends AbstractToken implements TokenParserInterface
     /**
      * @param $validated_token
      * @return mixed
-     * @throws ClaimNotExists
+     * @throws ClaimNotExistsException
      */
     public function parseToken($validated_token)
     {
@@ -103,16 +104,20 @@ class TokenParser extends AbstractToken implements TokenParserInterface
 
     /**
      * @param $claims
-     * @throws ClaimNotExists
+     * @throws ClaimNotExistsException
      */
     private function checkClaims($claims)
     {
         foreach ($claims as $claim => $value) {
             $claim_class = "\\HashAuth\\Claims\\" . ucfirst($claim) . "Claim";
             if (isset($this->request_data[$claim])) {
-                (new $claim_class())->check($value, $this->request_data[$claim]);
+                /**
+                 * @var $object ClaimInterface
+                 */
+                    $object = new $claim_class();
+                    $object->check($value, $this->request_data[$claim]);
             } else {
-                throw new ClaimNotExists("the {$claim} not exists in request data array");
+                throw new ClaimNotExistsException("the {$claim} not exists in request data array");
             }
 
         }
