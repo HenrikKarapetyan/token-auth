@@ -110,14 +110,18 @@ class TokenParser extends AbstractToken implements TokenParserInterface
     {
         foreach ($claims as $claim => $value) {
             $claim_class = "\\HashAuth\\Claims\\" . ucfirst($claim) . "Claim";
-            if (isset($this->request_data[$claim])) {
-                /**
-                 * @var $object ClaimInterface
-                 */
-                    $object = new $claim_class();
-                    $object->check($value, $this->request_data[$claim]);
-            } else {
-                throw new ClaimNotExistsException("the {$claim} not exists in request data array");
+            try{
+                if (isset($this->request_data[$claim])) {
+                    /**
+                     * @var $object ClaimInterface
+                     */
+                        $object = new $claim_class();
+                        $object->check($value, $this->request_data[$claim]);
+                } else {
+                    throw new ClaimNotExistsException("the {$claim} not exists in request data array");
+                }
+            }catch (ClaimNotExistsException $e){
+                // ignore if claim id not exist's 
             }
 
         }
