@@ -112,10 +112,39 @@ protected $routeMiddleware = [
 	// ...
 ];
 ```
+- Add this functions into your `User.php` model
+```php
+	 /**
+	 * @param $request
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	 public function createNewAccessToken($request, $user)
+	 {
+		  $tokenManager = TokenManagerHelper::getManagerInstance();
+		  $claims = $this->getClaims($request);
+		  $token = $tokenManager->makeToken($user, $claims);
+		  return $token;
+	 }
+	 private function getClaims(Request $request)
+	 {
+		 $claims = [
+			 'exp' => Carbon::now()->timestamp + (2 * 60 * 60),
+			 'browserId' => $request->header('User-Agent'),
+		 ];
+		 return $claims;
+	 }
+```
+
 
 The example login  action (must return token string in json format):
 
-
+```php
+ public function Login(User $user, Request $resuest){
+	$token = $user->createNewAccessToken($request, $user);
+	// ...
+}
+```
 
 
 
