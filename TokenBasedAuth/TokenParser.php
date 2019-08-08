@@ -4,12 +4,7 @@
  * @email HenrikKarapetyan@gmail.com
  */
 
-
 namespace HashAuth;
-
-/**
- * @author Henrik Karapetyan
- */
 
 use Exception;
 use HashAuth\Exceptions\ClaimNotExistsException;
@@ -34,6 +29,10 @@ class TokenParser extends AbstractToken implements TokenParserInterface
      */
     private $keyStorage;
 
+    /**
+     * TokenParser constructor.
+     * @param KeyStorage $keyStorage
+     */
     public function __construct(KeyStorage $keyStorage)
     {
         $this->keyStorage = $keyStorage;
@@ -42,7 +41,6 @@ class TokenParser extends AbstractToken implements TokenParserInterface
     /**
      * @param $token
      * @return string
-     * @throws ClaimNotExistsException
      * @throws Exception
      */
     public function parse($token)
@@ -84,14 +82,13 @@ class TokenParser extends AbstractToken implements TokenParserInterface
     /**
      * @param $validated_token
      * @return mixed
-     * @throws ClaimNotExistsException
      */
     public function parseToken($validated_token)
     {
         $input_token = base64_decode($validated_token);
         $data_with_claims_line = openssl_decrypt(
             $input_token,
-            $this->algorithm,
+            $this->keyStorage->getParserAlgorithm(),
             $this->keyStorage->getTokenPrivateKey(),
             0,
             $this->keyStorage->getTokenPrivateIv()
@@ -102,26 +99,25 @@ class TokenParser extends AbstractToken implements TokenParserInterface
     }
 
 
-    /**
-     * @param $claims
-     * @throws ClaimNotExistsException
+    /*
+     *
      */
     private function checkClaims($claims)
     {
         foreach ($claims as $claim => $value) {
-            $claim_class = "\\HashAuth\\Claims\\" . ucfirst($claim) . "Claim";
-            try{
+            try {
                 if (isset($this->request_data[$claim])) {
+                    $claim_class = "\\HashAuth\\Claims\\" . ucfirst($claim) . "Claim";
                     /**
                      * @var $object ClaimInterface
                      */
-                        $object = new $claim_class();
-                        $object->check($value, $this->request_data[$claim]);
+                    $object = new $claim_class();
+                    $object->check($value, $this->request_data[$claim]);
                 } else {
                     throw new ClaimNotExistsException("the {$claim} not exists in request data array");
                 }
-            }catch (ClaimNotExistsException $e){
-                // ignore if claim id not exist's 
+            } catch (ClaimNotExistsException $e) {
+                // ignore if claim id not exist's
             }
 
         }

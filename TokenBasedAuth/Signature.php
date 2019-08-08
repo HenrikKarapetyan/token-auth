@@ -16,16 +16,7 @@ use HashAuth\Interfaces\HashGeneratorInterface;
  */
 class Signature implements HashGeneratorInterface
 {
-    /**
-     * @var string string
-     *  algorithms like
-     *  sha256, sha512, sha128, md5, etc.
-     */
-    private $algorithm;
-    /**
-     * @var string
-     */
-    private $privateKey;
+
     /**
      * @var string
      */
@@ -35,29 +26,31 @@ class Signature implements HashGeneratorInterface
      * @var string
      */
     private $signature_string;
+    /**
+     * @var KeyStorage
+     */
+    private $keyStorage;
 
     /**
      * Signature constructor.
      * @param $token_string
-     * @param $privateKey
-     * @param string $algorithm
+     * @param $keyStorage
      */
-    public function __construct($token_string, $privateKey, $algorithm = "sha512")
+    public function __construct($token_string, $keyStorage)
     {
-        $this->algorithm = $algorithm;
-        $this->privateKey = $privateKey;
+        $this->keyStorage = $keyStorage;
         $this->token_string = $token_string;
     }
 
     /**
      * @return $this
      */
-    public function generate()
+    public function generate(): string
     {
         $this->signature_string = hash_hmac(
-            $this->algorithm,
+            $this->keyStorage->getHashAlgorithm(),
             $this->token_string,
-            $this->privateKey
+            $this->keyStorage->getSignaturePrivateKey()
         );
         return $this;
     }
@@ -65,7 +58,7 @@ class Signature implements HashGeneratorInterface
     /**
      * @return string
      */
-    public function getSignatureToken()
+    public function getSignatureToken(): string
     {
         return $this->signature_string;
     }

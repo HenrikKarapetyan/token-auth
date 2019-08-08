@@ -48,7 +48,7 @@ class Claim implements ClaimInterface
     }
 
 
-    public function check($request)
+    public function check($request, $value)
     {
         echo $this->value . "checked \n";
     }

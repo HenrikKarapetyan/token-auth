@@ -28,14 +28,26 @@ class TokenManager
      * @param $token_private_key
      * @param $token_private_iv
      * @param $signature_private_key
+     * @param string $parser_algorithm
+     * @param string $hash_algorithm
      * @throws \Exception
      */
-    public function __construct($token_private_key, $token_private_iv, $signature_private_key)
+    public function __construct(
+        $token_private_key,
+        $token_private_iv,
+        $signature_private_key,
+        $parser_algorithm = "AES-256-CBC",
+        $hash_algorithm = "SHA256")
     {
         $this->keyStorage = new KeyStorage();
         $this->keyStorage->setTokenPrivateKey($token_private_key);
         $this->keyStorage->setSignaturePrivateKey($signature_private_key);
         $this->keyStorage->setTokenPrivateIv($token_private_iv);
+        $this->keyStorage->setParserAlgorithm($parser_algorithm);
+        $this->keyStorage->setHashAlgorithm($hash_algorithm);
+        /**
+         * initializing default claim's for token builder
+         */
         $this->claims = [
             'exp' => (new DateTime())->getTimestamp() + (2 * 60 * 60),
             'sessId' => rand(),

@@ -46,7 +46,7 @@ class TokenBuilder implements TokenBuilderInterface
         $token_string = $token->generate()->getGeneratedToken();
         $signature = new Signature(
             $token_string,
-            $this->keyStorage->getSignaturePrivateKey()
+            $this->keyStorage
         );
         $signature_token = $signature->generate()->getSignatureToken();
         return $token_string . '-' . $signature_token;

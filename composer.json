@@ -1,7 +1,8 @@
 {
   "name": "henrikkarapetyan/hash-auth",
   "type": "library",
-  "description": "this  package created for token based authorization",
+  "description": "This package created for token based authorization",
+  "license": "BSD-2.0",
   "authors": [
     {
       "name": "Henrik Karapetyan",

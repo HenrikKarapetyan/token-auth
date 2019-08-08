@@ -16,7 +16,9 @@ use HashAuth\Interfaces\HashGeneratorInterface;
  */
 class Token extends AbstractToken implements HashGeneratorInterface
 {
-
+    /**
+     * @var KeyStorage
+     */
     private $keyStorage;
 
     /**
@@ -28,7 +30,6 @@ class Token extends AbstractToken implements HashGeneratorInterface
         $this->keyStorage = $keyStorage;
     }
 
-
     /**
      * @return $this
      */
@@ -36,7 +37,7 @@ class Token extends AbstractToken implements HashGeneratorInterface
     {
         $output = openssl_encrypt(
             $this->data_line,
-            $this->algorithm,
+            $this->keyStorage->getParserAlgorithm(),
             $this->keyStorage->getTokenPrivateKey(),
             0, $this->keyStorage->getTokenPrivateIv());
         $this->generated_token = base64_encode($output);

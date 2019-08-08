@@ -27,6 +27,16 @@ class KeyStorage
      */
     private $signature_private_key;
 
+
+    /**
+     * @var
+     */
+    private $hash_algorithm;
+    /**
+     * @var
+     */
+    private $parser_algorithm;
+
     /**
      * @return string
      */
@@ -75,4 +85,35 @@ class KeyStorage
         $this->signature_private_key = $signature_private_key;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getHashAlgorithm()
+    {
+        return $this->hash_algorithm;
+    }
+
+    /**
+     * @param mixed $hash_algorithm
+     */
+    public function setHashAlgorithm($hash_algorithm): void
+    {
+        $this->hash_algorithm = $hash_algorithm;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParserAlgorithm()
+    {
+        return $this->parser_algorithm;
+    }
+
+    /**
+     * @param mixed $parser_algorithm
+     */
+    public function setParserAlgorithm($parser_algorithm): void
+    {
+        $this->parser_algorithm = $parser_algorithm;
+    }
 }
