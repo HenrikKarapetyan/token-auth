@@ -28,14 +28,19 @@ class TokenParser extends AbstractToken implements TokenParserInterface
      * @var KeyStorage
      */
     private $keyStorage;
+    /**
+     * @var ClaimCollector
+     */
+    private $claimCollector;
 
     /**
      * TokenParser constructor.
      * @param KeyStorage $keyStorage
      */
-    public function __construct(KeyStorage $keyStorage)
+    public function __construct(KeyStorage $keyStorage, ClaimCollector $claimCollector)
     {
         $this->keyStorage = $keyStorage;
+        $this->claimCollector = $claimCollector;
     }
 
     /**
@@ -94,33 +99,8 @@ class TokenParser extends AbstractToken implements TokenParserInterface
             $this->keyStorage->getTokenPrivateIv()
         );
         $data_with_claims_object = json_decode($data_with_claims_line);
-        $this->checkClaims($data_with_claims_object->claims);
+        $this->claimCollector->checkClaims($data_with_claims_object->claims);
         return $data_with_claims_object->data;
-    }
-
-
-    /*
-     *
-     */
-    private function checkClaims($claims)
-    {
-        foreach ($claims as $claim => $value) {
-            try {
-                if (isset($this->request_data[$claim])) {
-                    $claim_class = "\\HashAuth\\Claims\\" . ucfirst($claim) . "Claim";
-                    /**
-                     * @var $object ClaimInterface
-                     */
-                    $object = new $claim_class();
-                    $object->check($value, $this->request_data[$claim]);
-                } else {
-                    throw new ClaimNotExistsException("the {$claim} not exists in request data array");
-                }
-            } catch (ClaimNotExistsException $e) {
-                // ignore if claim id not exist's
-            }
-
-        }
     }
 
     /**

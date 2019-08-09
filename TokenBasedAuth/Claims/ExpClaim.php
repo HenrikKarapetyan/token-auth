@@ -9,23 +9,20 @@ namespace HashAuth\Claims;
 
 
 use HashAuth\Exceptions\TokenExpiredException;
-use HashAuth\Interfaces\ClaimInterface;
 
 /**
  * Class ExpClaim
  * @package HashAuth\Claims
  */
-class ExpClaim implements ClaimInterface
+class ExpClaim extends AbstractClaim
 {
     /**
-     * @param $token_stored_value
-     * @param $value
-     * @return mixed|TokenExpiredException
+     * @return bool|mixed
      * @throws TokenExpiredException
      */
-    public function check($token_stored_value, $value)
+    public function check()
     {
-        if ($token_stored_value < $value) {
+        if ($this->previous_data < $this->current_data) {
             throw new TokenExpiredException('the token is expired');
         }
         return true;
