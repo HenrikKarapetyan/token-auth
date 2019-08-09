@@ -24,6 +24,7 @@ class TokenManager
     private $keyStorage;
 
     private $claimCollector;
+
     /**
      * TokenManager constructor.
      * @param array $claims
@@ -35,12 +36,15 @@ class TokenManager
      * @throws \Exception
      */
     public function __construct(
-        array $claims,
         $token_private_key,
         $token_private_iv,
         $signature_private_key,
         $parser_algorithm = Algorithms::ENCRYPT_AES_256_CTR,
-        $hash_algorithm = Algorithms::HASH_SHA256)
+        $hash_algorithm = Algorithms::HASH_SHA256,
+        array $claims = [
+            'exp' => [\HashAuth\Claims\ExpClaim::class, (new DateTime())->getTimestamp() + (2 * 60 * 60)],
+        ]
+    )
     {
         $this->keyStorage = new KeyStorage();
         $this->keyStorage->setTokenPrivateKey($token_private_key);
