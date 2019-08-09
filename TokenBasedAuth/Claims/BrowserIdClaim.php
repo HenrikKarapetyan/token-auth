@@ -8,24 +8,21 @@ namespace HashAuth\Claims;
 
 
 use HashAuth\Exceptions\BrowserNotMatchedException;
-use HashAuth\Interfaces\ClaimInterface;
 
 /**
- * Class BrowserIdClaim
+ * Class BrowserIdAbstractClaim
  * @package HashAuth\Claims
  */
-class BrowserIdClaim implements ClaimInterface
+class BrowserIdClaim extends AbstractClaim
 {
     /**
-     * @param $token_stored_value
-     * @param $value
-     * @return bool|BrowserNotMatchedException
+     * @return bool|mixed
      * @throws BrowserNotMatchedException
      */
-    public function check($token_stored_value, $value)
+    public function check()
     {
 
-        if ($token_stored_value !== $value) {
+        if ($this->previous_data !== $this->current_data) {
             throw new BrowserNotMatchedException("the browsers not matched");
         }
         return true;

@@ -4,23 +4,21 @@
  * @author Henrik Karapetyan
  * @email HenrikKarapetyan@gmail.com
  */
+
 namespace HashAuth\Claims;
 
 
-use HashAuth\Interfaces\ClaimInterface;
 
 /**
  * Class SessIdClaim
  * @package HashAuth\Claims
  */
-class SessIdClaim implements ClaimInterface
+class SessIdClaim extends AbstractClaim
 {
     /**
-     * @param $token_stored_value
-     * @param $value
-     * @return mixed|void
+     * @return bool|mixed
      */
-    public function check($token_stored_value, $value)
+    public function check()
     {
         return true;
     }

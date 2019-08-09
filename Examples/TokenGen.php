@@ -8,9 +8,16 @@ const TOKEN_PRIVATE_KEY = "secret3sdfsdfsdfsdfsdfsdf";
 
 $start = microtime(true);
 
-for ($i = 0; $i < 10000; $i++) {
+for ($i = 0; $i < 1; $i++) {
+
+    $claims = [
+        'exp' => [\HashAuth\Claims\ExpClaim::class, (new DateTime())->getTimestamp() + (2 * 60 * 60)],
+        'sessId' => [\HashAuth\Claims\SessIdClaim::class, 'Browser'],
+        'custom' => [\Examples\CustomClaim::class, 'hello']
+    ];
 
     $tokenManager = new \HashAuth\TokenManager(
+        $claims,
         TOKEN_PRIVATE_KEY,
         TOKEN_PRIVATE_IV,
         SIGNATURE_PRIVATE_KEY,
@@ -22,10 +29,10 @@ for ($i = 0; $i < 10000; $i++) {
         'id' => 1,
         'name' => "Demo",
         'last_name' => "Demo"
-    ], ['sessId' => rand(1, 10000000)]);
-    echo $i.$token."\n";
-//    $data = $tokenManager->parseToken($token, []);
-//    var_dump($i, json_encode($data), $token);
+    ]);
+    echo $i . $token . "\n";
+    $data = $tokenManager->parseToken($token, []);
+    var_dump($i, json_encode($data), $token);
 }
 
-echo "elapsed time".$time_elapsed_secs = microtime(true) - $start;
+echo "elapsed time" . $time_elapsed_secs = microtime(true) - $start;

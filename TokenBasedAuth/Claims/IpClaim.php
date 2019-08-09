@@ -8,23 +8,20 @@ namespace HashAuth\Claims;
 
 
 use HashAuth\Exceptions\IpNotMatchedException;
-use HashAuth\Interfaces\ClaimInterface;
 
 /**
  * Class IpClaim
  * @package HashAuth\Claims
  */
-class IpClaim implements ClaimInterface
+class IpClaim extends AbstractClaim
 {
     /**
-     * @param $token_stored_value
-     * @param $value
-     * @return mixed|bool
+     * @return bool|mixed
      * @throws IpNotMatchedException
      */
-    public function check($token_stored_value, $value)
+    public function check()
     {
-        if ($token_stored_value !== $value) {
+        if ($this->previous_data !== $this->current_data) {
             throw new IpNotMatchedException("the requested ip not matched  with token ip");
         }
         return true;

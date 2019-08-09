@@ -38,8 +38,9 @@ class TokenBuilder implements TokenBuilderInterface
     {
         $data_line = [];
         $data_line['data'] = $data;
-        $data_line['claims'] = $claims;
-
+        foreach ($claims as $id => $claim_obj){
+            $data_line['claims'][$id] = $claim_obj->exportCurrentData();
+        }
         $token = new Token($this->keyStorage);
         $token->setDataLine($data_line);
 

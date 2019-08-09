@@ -13,9 +13,7 @@ namespace HashAuth\Interfaces;
 interface ClaimInterface
 {
     /**
-     * @param $token_stored_value
-     * @param $value
      * @return mixed
      */
-    public function check($token_stored_value, $value);
+    public function check();
 }

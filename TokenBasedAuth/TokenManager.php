@@ -23,8 +23,10 @@ class TokenManager
 
     private $keyStorage;
 
+    private $claimCollector;
     /**
      * TokenManager constructor.
+     * @param array $claims
      * @param $token_private_key
      * @param $token_private_iv
      * @param $signature_private_key
@@ -33,6 +35,7 @@ class TokenManager
      * @throws \Exception
      */
     public function __construct(
+        array $claims,
         $token_private_key,
         $token_private_iv,
         $signature_private_key,
@@ -45,26 +48,19 @@ class TokenManager
         $this->keyStorage->setTokenPrivateIv($token_private_iv);
         $this->keyStorage->setParserAlgorithm($parser_algorithm);
         $this->keyStorage->setHashAlgorithm($hash_algorithm);
-        /**
-         * initializing default claim's for token builder
-         */
-        $this->claims = [
-            'exp' => (new DateTime())->getTimestamp() + (2 * 60 * 60),
-            'sessId' => rand(),
-        ];
+
+
+        $this->claims = $this->compileClaims($claims);
     }
 
     /**
      * @param $data
-     * @param array $claims
      * @return string
      */
-    public function makeToken($data, $claims = [])
+    public function makeToken($data)
     {
-        $claims = array_merge($this->claims, $claims);
-
         $tokenBuilder = new TokenBuilder($this->keyStorage);
-        $token = $tokenBuilder->buildToken($data, $claims);
+        $token = $tokenBuilder->buildToken($data, $this->claims);
         return $token;
     }
 
@@ -76,9 +72,20 @@ class TokenManager
      */
     public function parseToken($token, $request_data_array)
     {
-        $tokenParser = new TokenParser($this->keyStorage);
+        $tokenParser = new TokenParser($this->keyStorage, $this->claimCollector);
         $tokenParser->setRequestData($request_data_array);
         return $tokenParser->parse($token);
+    }
+
+    /**
+     * @param $claims
+     * @return array
+     */
+    private function compileClaims($claims)
+    {
+        $this->claimCollector = new ClaimCollector();
+        $this->claimCollector->buildClaims($claims);
+        return $this->claimCollector->getClaims();
     }
 
 }
