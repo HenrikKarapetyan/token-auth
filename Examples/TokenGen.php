@@ -2,9 +2,9 @@
 
 
 require "../vendor/autoload.php";
-const SIGNATURE_PRIVATE_KEY = "sdsdfsdfsdfsdfsdfs38748347587345734757dg7d9f7g7dfg79d7g89d9g7df7g32478";
-const TOKEN_PRIVATE_IV = "5sNbFTZSS30aSB3F";
-const TOKEN_PRIVATE_KEY = "*()&&A*DASDW&*W&*ENKJSDfu89wjewr08)W*(EEWDSEDdfsdf46d4f4f1sdf31sd6f4rwer64s6df";
+const SIGNATURE_PRIVATE_KEY = "secret1";
+const TOKEN_PRIVATE_IV = "secret2";
+const TOKEN_PRIVATE_KEY = "secret3";
 
 $start = microtime(true);
 
