@@ -40,7 +40,7 @@ class Token extends AbstractToken implements HashGeneratorInterface
             $this->keyStorage->getParserAlgorithm(),
             $this->keyStorage->getTokenPrivateKey(),
             0, $this->keyStorage->getTokenPrivateIv());
-        $this->generated_token = base64_encode($output);
+        $this->generated_token = $output;
         return $this;
     }
 

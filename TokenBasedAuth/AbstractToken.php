@@ -30,9 +30,9 @@ abstract class AbstractToken
     }
 
     /**
-     * @param string $data_line
+     * @param  $data_line
      */
-    public function setDataLine(string $data_line)
+    public function setDataLine($data_line)
     {
         $this->data_line = json_encode($data_line);
     }

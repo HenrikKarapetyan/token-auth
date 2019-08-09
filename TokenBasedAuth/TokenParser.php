@@ -73,7 +73,7 @@ class TokenParser extends AbstractToken implements TokenParserInterface
      */
     private function checkSignatureToken($data_token, $signature_token)
     {
-        $signature = new Signature($data_token, $this->keyStorage->getSignaturePrivateKey());
+        $signature = new Signature($data_token, $this->keyStorage);
         if (!$signature->generate()->is_valid($signature_token)) {
             throw new InvalidTokenDataException("invalid token data");
         }
@@ -85,7 +85,7 @@ class TokenParser extends AbstractToken implements TokenParserInterface
      */
     public function parseToken($validated_token)
     {
-        $input_token = base64_decode($validated_token);
+        $input_token = $validated_token;
         $data_with_claims_line = openssl_decrypt(
             $input_token,
             $this->keyStorage->getParserAlgorithm(),

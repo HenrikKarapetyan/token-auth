@@ -36,8 +36,8 @@ class TokenManager
         $token_private_key,
         $token_private_iv,
         $signature_private_key,
-        $parser_algorithm = "AES-256-CBC",
-        $hash_algorithm = "SHA256")
+        $parser_algorithm = Algorithms::ENCRYPT_AES_256_CTR,
+        $hash_algorithm = Algorithms::HASH_SHA256)
     {
         $this->keyStorage = new KeyStorage();
         $this->keyStorage->setTokenPrivateKey($token_private_key);
@@ -74,7 +74,7 @@ class TokenManager
      * @return string
      * @throws \Exception
      */
-    public function parseToke($token, $request_data_array)
+    public function parseToken($token, $request_data_array)
     {
         $tokenParser = new TokenParser($this->keyStorage);
         $tokenParser->setRequestData($request_data_array);

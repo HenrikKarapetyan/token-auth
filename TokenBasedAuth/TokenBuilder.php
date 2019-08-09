@@ -39,9 +39,9 @@ class TokenBuilder implements TokenBuilderInterface
         $data_line = [];
         $data_line['data'] = $data;
         $data_line['claims'] = $claims;
-        $json_line = json_encode($data_line);
+
         $token = new Token($this->keyStorage);
-        $token->setDataLine($json_line);
+        $token->setDataLine($data_line);
 
         $token_string = $token->generate()->getGeneratedToken();
         $signature = new Signature(

@@ -45,7 +45,7 @@ class Signature implements HashGeneratorInterface
     /**
      * @return $this
      */
-    public function generate(): string
+    public function generate()
     {
         $this->signature_string = hash_hmac(
             $this->keyStorage->getHashAlgorithm(),
