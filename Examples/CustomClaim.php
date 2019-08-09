@@ -16,7 +16,7 @@ class CustomClaim extends AbstractClaim
     public function check()
     {
         if ($this->current_data == $this->previous_data) {
-            var_dump($this->current_data, $this->previous_data);
+            // TODO do something
         }
     }
 }

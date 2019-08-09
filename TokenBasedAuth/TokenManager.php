@@ -27,7 +27,6 @@ class TokenManager
 
     /**
      * TokenManager constructor.
-     * @param array $claims
      * @param $token_private_key
      * @param $token_private_iv
      * @param $signature_private_key
@@ -39,11 +38,8 @@ class TokenManager
         $token_private_key,
         $token_private_iv,
         $signature_private_key,
-        $parser_algorithm = Algorithms::ENCRYPT_AES_256_CTR,
-        $hash_algorithm = Algorithms::HASH_SHA256,
-        array $claims = [
-            'exp' => [\HashAuth\Claims\ExpClaim::class, (new DateTime())->getTimestamp() + (2 * 60 * 60)],
-        ]
+        $parser_algorithm = Algorithms::ENCRYPT_AES_256_XTS,
+        $hash_algorithm = Algorithms::HASH_SHA256
     )
     {
         $this->keyStorage = new KeyStorage();
@@ -52,10 +48,16 @@ class TokenManager
         $this->keyStorage->setTokenPrivateIv($token_private_iv);
         $this->keyStorage->setParserAlgorithm($parser_algorithm);
         $this->keyStorage->setHashAlgorithm($hash_algorithm);
+    }
 
-
+    /**
+     * @param array $claims
+     */
+    public function setClaims(array $claims): void
+    {
         $this->claims = $this->compileClaims($claims);
     }
+
 
     /**
      * @param $data

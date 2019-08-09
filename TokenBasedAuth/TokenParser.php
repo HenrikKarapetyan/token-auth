@@ -7,10 +7,8 @@
 namespace HashAuth;
 
 use Exception;
-use HashAuth\Exceptions\ClaimNotExistsException;
 use HashAuth\Exceptions\HashAuthException;
 use HashAuth\Exceptions\InvalidTokenDataException;
-use HashAuth\Interfaces\ClaimInterface;
 use HashAuth\Interfaces\TokenParserInterface;
 
 /**
