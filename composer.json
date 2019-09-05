@@ -2,7 +2,7 @@
   "name": "henrik/token-auth",
   "type": "library",
   "description": "This package created for token based authorization",
-  "license": "BSD-2.0",
+  "license": "MIT",
   "authors": [
     {
       "name": "Henrik Karapetyan",
