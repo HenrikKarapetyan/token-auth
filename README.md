@@ -2,7 +2,7 @@
 
 How to install
 
-    composer require henrikkarapetyan/hash-auth
+    composer require henrik/token-auth
 
 
 ####	Configurations  For Laravel Framework.
